@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block title %}Enroll - Biometric Authentication{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <i class="bi bi-person-plus me-2"></i>User Enrollment
+                </div>
+                <div class="card-body">
+                    <form method="POST" enctype="multipart/form-data" id="enrollForm">
+                        <!-- User ID -->
+                        <div class="mb-4">
+                            <label for="user_id" class="form-label fw-bold">
+                                <i class="bi bi-person me-1"></i>User ID
+                            </label>
+                            <input type="text" class="form-control form-control-lg" 
+                                   id="user_id" name="user_id" 
+                                   placeholder="Enter unique user ID" required>
+                            <div class="form-text">
+                                This will be your unique identifier in the system.
+                            </div>
+                        </div>
+                        
+                        <!-- Biometric Images -->
+                        <div class="row g-4 mb-4">
+                            <!-- Face Image -->
+                            <div class="col-md-6">
+                                <div class="card h-100">
+                                    <div class="card-body text-center">
+                                        <i class="bi bi-person-bounding-box display-4 text-primary mb-3"></i>
+                                        <h5>Face Image</h5>
+                                        <p class="text-muted small">Upload a clear frontal face photo</p>
+                                        
+                                        <div class="mb-3">
+                                            <input type="file" class="form-control" 
+                                                   id="face_image" name="face_image" 
+                                                   accept="image/*"
+                                                   onchange="previewImage(this, 'face_preview')">
+                                        </div>
+                                        
+                                        <div id="face_preview" class="preview-container">
+                                            <img src="" alt="Face Preview" class="img-thumbnail" 
+                                                 style="max-height: 150px; display: none;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Hand Image -->
+                            <div class="col-md-6">
+                                <div class="card h-100">
+                                    <div class="card-body text-center">
+                                        <i class="bi bi-hand-index display-4 text-primary mb-3"></i>
+                                        <h5>Dorsal Hand Image</h5>
+                                        <p class="text-muted small">Upload a clear dorsal hand photo</p>
+                                        
+                                        <div class="mb-3">
+                                            <input type="file" class="form-control" 
+                                                   id="hand_image" name="hand_image" 
+                                                   accept="image/*"
+                                                   onchange="previewImage(this, 'hand_preview')">
+                                        </div>
+                                        
+                                        <div id="hand_preview" class="preview-container">
+                                            <img src="" alt="Hand Preview" class="img-thumbnail" 
+                                                 style="max-height: 150px; display: none;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg" id="enrollBtn">
+                                <i class="bi bi-cloud-upload me-2"></i>Enroll User
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <!-- Process Info -->
+                    <div class="alert alert-info mt-4">
+                        <h6><i class="bi bi-info-circle me-2"></i>Enrollment Process:</h6>
+                        <ol class="mb-0">
+                            <li>Your biometric data is processed locally</li>
+                            <li>Features are extracted and encrypted using fuzzy vault</li>
+                            <li>Encrypted vault is stored on IPFS</li>
+                            <li>IPFS hash is recorded on Ethereum blockchain</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function previewImage(input, previewId) {
+    const preview = document.getElementById(previewId).querySelector('img');
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+document.getElementById('enrollForm').addEventListener('submit', function() {
+    const btn = document.getElementById('enrollBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Enrolling...';
+});
+</script>
+{% endblock %}

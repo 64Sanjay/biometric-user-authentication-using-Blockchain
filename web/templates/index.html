@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Biometric Authentication{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold mb-4">
+            <i class="bi bi-fingerprint me-3"></i>
+            Decentralized Biometric Authentication
+        </h1>
+        <p class="lead mb-4">
+            Secure multimodal biometric authentication using improved fuzzy vault scheme 
+            with Blockchain and IPFS technology.
+        </p>
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <a href="{{ url_for('enroll') }}" class="btn btn-light btn-lg">
+                <i class="bi bi-person-plus me-2"></i>Enroll Now
+            </a>
+            <a href="{{ url_for('authenticate') }}" class="btn btn-outline-light btn-lg">
+                <i class="bi bi-shield-check me-2"></i>Authenticate
+            </a>
+            <a href="{{ url_for('architecture') }}" class="btn btn-outline-light btn-lg">
+                <i class="bi bi-diagram-3 me-2"></i>View Architecture
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Features Section -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card h-100 text-center p-4 stats-card">
+                <div class="feature-icon">
+                    <i class="bi bi-person-bounding-box"></i>
+                </div>
+                <h4>Multimodal Biometrics</h4>
+                <p class="text-muted">
+                    Combines face and dorsal hand biometrics for enhanced security and accuracy.
+                </p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 text-center p-4 stats-card">
+                <div class="feature-icon">
+                    <i class="bi bi-lock-fill"></i>
+                </div>
+                <h4>Fuzzy Vault Encryption</h4>
+                <p class="text-muted">
+                    Improved fuzzy vault scheme with asymmetric cryptosystem for template protection.
+                </p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 text-center p-4 stats-card">
+                <div class="feature-icon">
+                    <i class="bi bi-diagram-3"></i>
+                </div>
+                <h4>Decentralized Storage</h4>
+                <p class="text-muted">
+                    IPFS for distributed storage and Ethereum blockchain for immutable records.
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Quick Actions -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-6">
+            <div class="card border-primary stats-card h-100">
+                <div class="card-body text-center p-4">
+                    <i class="bi bi-person-plus display-4 text-primary mb-3"></i>
+                    <h4>New User?</h4>
+                    <p class="text-muted">Register your biometric data securely on the blockchain.</p>
+                    <a href="{{ url_for('enroll') }}" class="btn btn-primary btn-lg">
+                        <i class="bi bi-arrow-right me-2"></i>Start Enrollment
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card border-success stats-card h-100">
+                <div class="card-body text-center p-4">
+                    <i class="bi bi-shield-check display-4 text-success mb-3"></i>
+                    <h4>Existing User?</h4>
+                    <p class="text-muted">Verify your identity using your biometric credentials.</p>
+                    <a href="{{ url_for('authenticate') }}" class="btn btn-success btn-lg">
+                        <i class="bi bi-arrow-right me-2"></i>Authenticate Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="row g-4 mb-4">
+        <div class="col-6 col-md-3">
+            <div class="card text-center stats-card bg-primary text-white">
+                <div class="card-body">
+                    <h2 class="fw-bold mb-0">99.8%</h2>
+                    <small>Accuracy</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card text-center stats-card bg-success text-white">
+                <div class="card-body">
+                    <h2 class="fw-bold mb-0">0.08</h2>
+                    <small>EER</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card text-center stats-card bg-info text-white">
+                <div class="card-body">
+                    <h2 class="fw-bold mb-0">96%</h2>
+                    <small>TAR</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card text-center stats-card bg-warning text-dark">
+                <div class="card-body">
+                    <h2 class="fw-bold mb-0">ISO</h2>
+                    <small>24745 Compliant</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Cards -->
+    <div class="row g-4">
+        <div class="col-md-3">
+            <a href="{{ url_for('architecture') }}" class="text-decoration-none">
+                <div class="card text-center stats-card h-100">
+                    <div class="card-body">
+                        <i class="bi bi-diagram-3 display-5 text-primary mb-2"></i>
+                        <h6 class="mb-0">System Architecture</h6>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a href="{{ url_for('dashboard') }}" class="text-decoration-none">
+                <div class="card text-center stats-card h-100">
+                    <div class="card-body">
+                        <i class="bi bi-speedometer2 display-5 text-success mb-2"></i>
+                        <h6 class="mb-0">Dashboard</h6>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a href="{{ url_for('vault_management') }}" class="text-decoration-none">
+                <div class="card text-center stats-card h-100">
+                    <div class="card-body">
+                        <i class="bi bi-safe display-5 text-info mb-2"></i>
+                        <h6 class="mb-0">Vault Management</h6>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a href="{{ url_for('camera') }}" class="text-decoration-none">
+                <div class="card text-center stats-card h-100">
+                    <div class="card-body">
+                        <i class="bi bi-camera-video display-5 text-danger mb-2"></i>
+                        <h6 class="mb-0">Camera Capture</h6>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

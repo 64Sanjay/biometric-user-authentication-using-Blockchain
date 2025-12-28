@@ -1,0 +1,27 @@
+# Python Environments (Do NOT push these)
+gpu310/
+venv/
+env/
+__pycache__/
+*.pyc
+
+# Large Binaries
+kubo_v0.24.0_linux-amd64.tar.gz
+kubo/
+
+# Local Blockchain & Data
+data/blockchain_local/
+data/ganache_data/
+data/ipfs_local/
+logs/
+
+# Large Datasets
+data/face_images/
+data/hand_images/
+data/captures/
+data/uploads/
+data/processed/
+
+# Secrets
+config/ganache_config.py
+.env.example

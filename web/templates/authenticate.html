@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block title %}Authenticate - Biometric Authentication{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <i class="bi bi-shield-check me-2"></i>User Authentication
+                </div>
+                <div class="card-body">
+                    <form method="POST" id="authForm">
+                        <!-- User ID -->
+                        <div class="mb-4">
+                            <label for="user_id" class="form-label fw-bold">
+                                <i class="bi bi-person me-1"></i>User ID
+                            </label>
+                            <input type="text" class="form-control form-control-lg" 
+                                   id="user_id" name="user_id" 
+                                   placeholder="Enter your user ID" required>
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success btn-lg" id="authBtn">
+                                <i class="bi bi-shield-lock me-2"></i>Authenticate
+                            </button>
+                        </div>
+                    </form>
+                    
+                    {% if auth_result %}
+                    <!-- Authentication Result -->
+                    <div class="mt-4">
+                        <div class="alert alert-success">
+                            <h5><i class="bi bi-check-circle-fill me-2"></i>Authentication Successful!</h5>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-header bg-success text-white">
+                                <i class="bi bi-person-check me-2"></i>User Details
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-borderless mb-0">
+                                    <tr>
+                                        <th width="30%">User ID:</th>
+                                        <td>{{ auth_result.user_id }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Vault Index:</th>
+                                        <td>{{ auth_result.vault_index }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>IPFS CID:</th>
+                                        <td>
+                                            <code>{{ auth_result.blockchain_info.ipfs_cid[:40] }}...</code>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Vault Active:</th>
+                                        <td>
+                                            <span class="badge bg-success">
+                                                <i class="bi bi-check-circle me-1"></i>Active
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Retrieved At:</th>
+                                        <td>{{ auth_result.retrieved_at }}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Process Info -->
+                    <div class="alert alert-info mt-4">
+                        <h6><i class="bi bi-info-circle me-2"></i>Authentication Process:</h6>
+                        <ol class="mb-0">
+                            <li>User ID is verified on the blockchain</li>
+                            <li>Vault status is checked (active/revoked)</li>
+                            <li>Encrypted vault is retrieved from IPFS</li>
+                            <li>Biometric matching is performed using fuzzy vault</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('authForm').addEventListener('submit', function() {
+    const btn = document.getElementById('authBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Authenticating...';
+});
+</script>
+{% endblock %}

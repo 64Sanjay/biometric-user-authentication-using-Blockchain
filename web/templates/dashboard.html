@@ -1,0 +1,221 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Biometric Authentication{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h2 class="mb-4">
+        <i class="bi bi-speedometer2 me-2"></i>System Dashboard
+    </h2>
+    
+    <!-- Status Cards -->
+    <div class="row g-4 mb-4">
+        <!-- System Status -->
+        <div class="col-md-4">
+            <div class="card stats-card h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-hdd-stack display-4 mb-3 
+                       {% if stats.system_ready %}text-success{% else %}text-danger{% endif %}"></i>
+                    <h5>System Status</h5>
+                    <span class="status-badge {% if stats.system_ready %}status-online{% else %}status-offline{% endif %}">
+                        {% if stats.system_ready %}
+                            <i class="bi bi-check-circle me-1"></i>Online
+                        {% else %}
+                            <i class="bi bi-x-circle me-1"></i>Offline
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- IPFS Status -->
+        <div class="col-md-4">
+            <div class="card stats-card h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-box display-4 mb-3 
+                       {% if stats.ipfs.connected %}text-success{% else %}text-danger{% endif %}"></i>
+                    <h5>IPFS Node</h5>
+                    <span class="status-badge {% if stats.ipfs.connected %}status-online{% else %}status-offline{% endif %}">
+                        {% if stats.ipfs.connected %}
+                            <i class="bi bi-check-circle me-1"></i>Connected
+                        {% else %}
+                            <i class="bi bi-x-circle me-1"></i>Disconnected
+                        {% endif %}
+                    </span>
+                    {% if stats.ipfs.pinned_count is defined %}
+                    <p class="mt-2 mb-0 text-muted">
+                        {{ stats.ipfs.pinned_count }} items pinned
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Ethereum Status -->
+        <div class="col-md-4">
+            <div class="card stats-card h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-currency-bitcoin display-4 mb-3 
+                       {% if stats.ethereum.connected %}text-success{% else %}text-danger{% endif %}"></i>
+                    <h5>Ethereum (Ganache)</h5>
+                    <span class="status-badge {% if stats.ethereum.connected %}status-online{% else %}status-offline{% endif %}">
+                        {% if stats.ethereum.connected %}
+                            <i class="bi bi-check-circle me-1"></i>Connected
+                        {% else %}
+                            <i class="bi bi-x-circle me-1"></i>Disconnected
+                        {% endif %}
+                    </span>
+                    {% if stats.ethereum.block_number is defined %}
+                    <p class="mt-2 mb-0 text-muted">
+                        Block #{{ stats.ethereum.block_number }}
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Statistics -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white stats-card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-uppercase opacity-75">Total Users</h6>
+                            <h2 class="mb-0">{{ stats.ethereum.total_users or 0 }}</h2>
+                        </div>
+                        <i class="bi bi-people display-4 opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="card bg-success text-white stats-card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-uppercase opacity-75">Total Vaults</h6>
+                            <h2 class="mb-0">{{ stats.ethereum.total_vaults or 0 }}</h2>
+                        </div>
+                        <i class="bi bi-safe display-4 opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="card bg-info text-white stats-card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-uppercase opacity-75">Chain ID</h6>
+                            <h2 class="mb-0">{{ stats.ethereum.chain_id or 'N/A' }}</h2>
+                        </div>
+                        <i class="bi bi-diagram-3 display-4 opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="card bg-warning text-dark stats-card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-uppercase opacity-75">Balance (ETH)</h6>
+                            <h2 class="mb-0">{{ "%.2f"|format(stats.ethereum.account_balance or 0) }}</h2>
+                        </div>
+                        <i class="bi bi-wallet2 display-4 opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Detailed Info -->
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-header">
+                    <i class="bi bi-box me-2"></i>IPFS Details
+                </div>
+                <div class="card-body">
+                    <table class="table table-borderless">
+                        <tr>
+                            <th>Status:</th>
+                            <td>
+                                <span class="badge {% if stats.ipfs.connected %}bg-success{% else %}bg-danger{% endif %}">
+                                    {{ 'Connected' if stats.ipfs.connected else 'Disconnected' }}
+                                </span>
+                            </td>
+                        </tr>
+                        {% if stats.ipfs.version is defined %}
+                        <tr>
+                            <th>Version:</th>
+                            <td>{{ stats.ipfs.version }}</td>
+                        </tr>
+                        {% endif %}
+                        {% if stats.ipfs.id is defined %}
+                        <tr>
+                            <th>Peer ID:</th>
+                            <td><code>{{ stats.ipfs.id[:20] }}...</code></td>
+                        </tr>
+                        {% endif %}
+                        {% if stats.ipfs.pinned_count is defined %}
+                        <tr>
+                            <th>Pinned Items:</th>
+                            <td>{{ stats.ipfs.pinned_count }}</td>
+                        </tr>
+                        {% endif %}
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-header">
+                    <i class="bi bi-currency-bitcoin me-2"></i>Ethereum Details
+                </div>
+                <div class="card-body">
+                    <table class="table table-borderless">
+                        <tr>
+                            <th>Status:</th>
+                            <td>
+                                <span class="badge {% if stats.ethereum.connected %}bg-success{% else %}bg-danger{% endif %}">
+                                    {{ 'Connected' if stats.ethereum.connected else 'Disconnected' }}
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Provider:</th>
+                            <td><code>{{ stats.ethereum.provider_url or 'N/A' }}</code></td>
+                        </tr>
+                        <tr>
+                            <th>Chain ID:</th>
+                            <td>{{ stats.ethereum.chain_id or 'N/A' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Block Number:</th>
+                            <td>{{ stats.ethereum.block_number or 'N/A' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Gas Price:</th>
+                            <td>{{ stats.ethereum.gas_price or 'N/A' }} Wei</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Auto-refresh every 30 seconds
+setTimeout(function() {
+    location.reload();
+}, 30000);
+</script>
+{% endblock %}

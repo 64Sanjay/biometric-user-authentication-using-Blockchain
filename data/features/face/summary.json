@@ -1,0 +1,8 @@
+{
+  "extraction_date": "2025-12-24T14:22:34.852128",
+  "num_users": 50,
+  "num_images": 250,
+  "feature_dim": 128,
+  "feature_mean": -0.003654008800542215,
+  "feature_std": 0.1200368137787559
+}

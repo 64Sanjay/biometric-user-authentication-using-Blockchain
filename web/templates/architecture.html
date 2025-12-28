@@ -1,0 +1,192 @@
+{% extends 'base.html' %}
+
+{% block title %}System Architecture - Biometric Authentication{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <h2 class="fw-bold text-primary">
+                <i class="bi bi-diagram-3 me-2"></i>System Architecture
+            </h2>
+            <p class="text-muted">Decentralized Biometric Authentication using Blockchain & IPFS</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white">
+                    <i class="bi bi-diagram-2 me-2"></i>Architecture Overview
+                </div>
+                <div class="card-body p-4" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); border-radius: 0 0 0.75rem 0.75rem;">
+                    <pre class="text-light mb-0" style="font-size: 0.9rem;">
+┌─────────────────────────────────────┐
+│         BIOMETRIC INPUT             │
+│   (Face Image + Dorsal Hand Image)  │
+└──────────────┬──────────────────────┘
+               │
+               ▼
+┌─────────────────────────────────────┐
+│         PREPROCESSING               │
+│     • Median Filter                 │
+│     • Noise Reduction               │
+└──────────────┬──────────────────────┘
+               │
+               ▼
+┌─────────────────────────────────────┐
+│      FEATURE EXTRACTION             │
+│  • Deep Learning (Face - 128D)      │
+│  • MRG + GLCM (Hand - 64D)          │
+└──────────────┬──────────────────────┘
+               │
+               ▼
+┌─────────────────────────────────────┐
+│     IMPROVED FUZZY VAULT            │
+│  • Asymmetric Cryptosystem          │
+│  • Variable Key Size                │
+│  • Reed-Solomon Error Correction    │
+└──────────────┬──────────────────────┘
+               │
+       ┌───────┴───────┐
+       ▼               ▼
+┌─────────────┐  ┌─────────────┐
+│    IPFS     │  │  Ethereum   │
+│ (Distributed│◄─│ (Blockchain)│
+│   Storage)  │  │  CID Store  │
+└─────────────┘  └─────────────┘
+                    </pre>
+                </div>
+            </div>
+
+            <div class="card shadow-sm mb-4">
+                <div class="card-header">
+                    <i class="bi bi-arrow-right-circle me-2"></i>Data Flow Process
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="text-primary"><i class="bi bi-1-circle-fill me-2"></i>Enrollment Phase</h6>
+                            <ol class="small text-muted">
+                                <li>Capture face and dorsal hand images</li>
+                                <li>Preprocess images using median filter</li>
+                                <li>Extract features (Deep Learning + MRG/GLCM)</li>
+                                <li>Create bio-token using improved fuzzy vault</li>
+                                <li>Store encrypted vault in IPFS</li>
+                                <li>Record IPFS CID on Ethereum blockchain</li>
+                            </ol>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-success"><i class="bi bi-2-circle-fill me-2"></i>Recognition Phase</h6>
+                            <ol class="small text-muted">
+                                <li>Capture biometric images</li>
+                                <li>Extract features from input</li>
+                                <li>Retrieve vault CID from blockchain</li>
+                                <li>Fetch encrypted vault from IPFS</li>
+                                <li>Attempt to decode fuzzy vault</li>
+                                <li>Verify match score against threshold</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-success text-white">
+                    <i class="bi bi-graph-up me-2"></i>Performance Metrics
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="fw-bold">Accuracy</span>
+                            <span class="badge bg-success">99.8%</span>
+                        </div>
+                        <div class="progress" style="height: 10px;">
+                            <div class="progress-bar bg-success" style="width: 99.8%"></div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="fw-bold">True Acceptance Rate</span>
+                            <span class="badge bg-primary">96%</span>
+                        </div>
+                        <div class="progress" style="height: 10px;">
+                            <div class="progress-bar bg-primary" style="width: 96%"></div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="fw-bold">Equal Error Rate</span>
+                            <span class="badge bg-info">0.08</span>
+                        </div>
+                        <div class="progress" style="height: 10px;">
+                            <div class="progress-bar bg-info" style="width: 8%"></div>
+                        </div>
+                        <small class="text-muted">Lower is better</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white">
+                    <i class="bi bi-star-fill me-2"></i>Key Features
+                </div>
+                <div class="card-body p-0">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i><strong>99.8% Accuracy</strong> - High recognition rate</li>
+                        <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i><strong>0.08 EER</strong> - Low equal error rate</li>
+                        <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i><strong>ISO/IEC 24745</strong> - Compliant template protection</li>
+                        <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i><strong>Revocability</strong> - Templates can be revoked</li>
+                        <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i><strong>Unlinkability</strong> - Cross-application privacy</li>
+                        <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i><strong>Irreversibility</strong> - Cannot recover original biometric</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-header bg-danger text-white">
+                    <i class="bi bi-shield-lock me-2"></i>Security Analysis
+                </div>
+                <div class="card-body">
+                    <table class="table table-sm table-borderless mb-0">
+                        <tr><td><i class="bi bi-check-circle-fill text-success me-2"></i>ARM Attack</td><td class="text-end"><span class="badge bg-success">Protected</span></td></tr>
+                        <tr><td><i class="bi bi-check-circle-fill text-success me-2"></i>Brute Force</td><td class="text-end"><span class="badge bg-success">Protected</span></td></tr>
+                        <tr><td><i class="bi bi-check-circle-fill text-success me-2"></i>Collusion</td><td class="text-end"><span class="badge bg-success">Protected</span></td></tr>
+                        <tr><td><i class="bi bi-check-circle-fill text-success me-2"></i>Zero Effort</td><td class="text-end"><span class="badge bg-success">Protected</span></td></tr>
+                        <tr><td><i class="bi bi-check-circle-fill text-success me-2"></i>Replay Attack</td><td class="text-end"><span class="badge bg-success">Protected</span></td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <i class="bi bi-table me-2"></i>Performance Comparison with Existing Methods
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-dark">
+                                <tr><th>Method</th><th>Biometric Type</th><th>Accuracy</th><th>EER (%)</th><th>Storage</th><th>Security</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Yang et al.</td><td>Multimodal</td><td>90.0%</td><td>0.33</td><td>Centralized</td><td><span class="badge bg-warning">Medium</span></td></tr>
+                                <tr><td>Genovese et al.</td><td>Palm + Finger</td><td>94.0%</td><td>6.05</td><td>Centralized</td><td><span class="badge bg-warning">Medium</span></td></tr>
+                                <tr><td>Sabri et al.</td><td>Multimodal</td><td>98.0%</td><td>1.57</td><td>Centralized</td><td><span class="badge bg-warning">Medium</span></td></tr>
+                                <tr><td>Gavisiddappa et al.</td><td>Fingerprint + Iris</td><td>97.0%</td><td>0.23</td><td>Centralized</td><td><span class="badge bg-warning">Medium</span></td></tr>
+                                <tr><td>Jaswal et al.</td><td>Palm + Knuckle</td><td>96.0%</td><td>2.91</td><td>Centralized</td><td><span class="badge bg-warning">Medium</span></td></tr>
+                                <tr class="table-success fw-bold"><td><i class="bi bi-star-fill text-warning me-1"></i>Proposed Method</td><td>Face + Dorsal Hand</td><td>99.8%</td><td>0.08</td><td>Decentralized (IPFS + Blockchain)</td><td><span class="badge bg-success">High</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,354 @@
+{% extends 'base.html' %}
+
+{% block title %}Camera Capture - Biometric Authentication{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h2 class="mb-4">
+        <i class="bi bi-camera-video me-2"></i>Real-time Biometric Capture
+    </h2>
+    
+    <div class="row">
+        <!-- Camera Feed -->
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span><i class="bi bi-camera me-2"></i>Live Camera Feed</span>
+                    <span id="camera-status" class="badge bg-secondary">Stopped</span>
+                </div>
+                <div class="card-body text-center">
+                    <!-- Camera View -->
+                    <div id="camera-container" class="mb-3" style="min-height: 400px; background: #000; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                        <div id="camera-placeholder" class="text-white">
+                            <i class="bi bi-camera-video-off display-1 mb-3"></i>
+                            <p>Click "Start Camera" to begin</p>
+                        </div>
+                        <img id="camera-feed" src="" alt="Camera Feed" style="max-width: 100%; max-height: 480px; display: none; border-radius: 8px;">
+                    </div>
+                    
+                    <!-- Camera Controls -->
+                    <div class="btn-group mb-3">
+                        <button id="btn-start" class="btn btn-success" onclick="startCamera()">
+                            <i class="bi bi-play-fill me-1"></i>Start Camera
+                        </button>
+                        <button id="btn-stop" class="btn btn-danger" onclick="stopCamera()" disabled>
+                            <i class="bi bi-stop-fill me-1"></i>Stop Camera
+                        </button>
+                    </div>
+                    
+                    <!-- Detection Mode -->
+                    <div class="mb-3">
+                        <div class="btn-group" role="group">
+                            <input type="radio" class="btn-check" name="detect-mode" id="mode-face" checked>
+                            <label class="btn btn-outline-primary" for="mode-face">
+                                <i class="bi bi-person-bounding-box me-1"></i>Face Detection
+                            </label>
+                            
+                            <input type="radio" class="btn-check" name="detect-mode" id="mode-hand">
+                            <label class="btn btn-outline-primary" for="mode-hand">
+                                <i class="bi bi-hand-index me-1"></i>Hand Detection
+                            </label>
+                            
+                            <input type="radio" class="btn-check" name="detect-mode" id="mode-both">
+                            <label class="btn btn-outline-primary" for="mode-both">
+                                <i class="bi bi-person me-1"></i>Both
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Capture Panel -->
+        <div class="col-lg-4">
+            <!-- User ID -->
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="bi bi-person me-2"></i>User Information
+                </div>
+                <div class="card-body">
+                    <input type="text" class="form-control" id="user-id" placeholder="Enter User ID">
+                </div>
+            </div>
+            
+            <!-- Capture Buttons -->
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="bi bi-camera me-2"></i>Capture Images
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary btn-lg" onclick="captureFace()" id="btn-capture-face" disabled>
+                            <i class="bi bi-person-bounding-box me-2"></i>Capture Face
+                        </button>
+                        <button class="btn btn-info btn-lg" onclick="captureHand()" id="btn-capture-hand" disabled>
+                            <i class="bi bi-hand-index me-2"></i>Capture Hand
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Captured Images Preview -->
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="bi bi-images me-2"></i>Captured Images
+                </div>
+                <div class="card-body">
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <div class="text-center">
+                                <small class="text-muted">Face</small>
+                                <div id="face-preview" class="border rounded p-2" style="min-height: 100px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="bi bi-person text-muted display-6"></i>
+                                </div>
+                                <span id="face-status" class="badge bg-secondary mt-1">Not captured</span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-center">
+                                <small class="text-muted">Hand</small>
+                                <div id="hand-preview" class="border rounded p-2" style="min-height: 100px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="bi bi-hand-index text-muted display-6"></i>
+                                </div>
+                                <span id="hand-status" class="badge bg-secondary mt-1">Not captured</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Enroll Button -->
+            <div class="card">
+                <div class="card-body">
+                    <button class="btn btn-success btn-lg w-100" onclick="enrollWithCaptures()" id="btn-enroll" disabled>
+                        <i class="bi bi-cloud-upload me-2"></i>Enroll User
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Instructions -->
+    <div class="card mt-4">
+        <div class="card-header">
+            <i class="bi bi-info-circle me-2"></i>Instructions
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h6><i class="bi bi-person-bounding-box text-primary me-2"></i>Face Capture</h6>
+                    <ul class="text-muted small">
+                        <li>Look directly at the camera</li>
+                        <li>Ensure good lighting on your face</li>
+                        <li>Keep a neutral expression</li>
+                        <li>Wait for green bounding box</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h6><i class="bi bi-hand-index text-info me-2"></i>Hand Capture</h6>
+                    <ul class="text-muted small">
+                        <li>Show the back of your hand (dorsal)</li>
+                        <li>Spread fingers slightly</li>
+                        <li>Keep hand steady and flat</li>
+                        <li>Wait for blue bounding box</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let cameraRunning = false;
+let frameInterval = null;
+let capturedFace = null;
+let capturedHand = null;
+
+function startCamera() {
+    fetch('/api/camera/start', { method: 'POST' })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                cameraRunning = true;
+                updateUI();
+                startFrameUpdates();
+                showAlert('Camera started', 'success');
+            } else {
+                showAlert('Failed to start camera: ' + data.message, 'danger');
+            }
+        })
+        .catch(error => {
+            showAlert('Error: ' + error, 'danger');
+        });
+}
+
+function stopCamera() {
+    fetch('/api/camera/stop', { method: 'POST' })
+        .then(response => response.json())
+        .then(data => {
+            cameraRunning = false;
+            stopFrameUpdates();
+            updateUI();
+            showAlert('Camera stopped', 'info');
+        });
+}
+
+function startFrameUpdates() {
+    const feed = document.getElementById('camera-feed');
+    const placeholder = document.getElementById('camera-placeholder');
+    
+    feed.style.display = 'block';
+    placeholder.style.display = 'none';
+    
+    frameInterval = setInterval(() => {
+        const detectFace = document.getElementById('mode-face').checked || document.getElementById('mode-both').checked;
+        const detectHand = document.getElementById('mode-hand').checked || document.getElementById('mode-both').checked;
+        
+        fetch(`/api/camera/frame?detect_face=${detectFace}&detect_hand=${detectHand}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.frame) {
+                    feed.src = 'data:image/jpeg;base64,' + data.frame;
+                }
+            });
+    }, 100); // 10 FPS
+}
+
+function stopFrameUpdates() {
+    if (frameInterval) {
+        clearInterval(frameInterval);
+        frameInterval = null;
+    }
+    
+    const feed = document.getElementById('camera-feed');
+    const placeholder = document.getElementById('camera-placeholder');
+    
+    feed.style.display = 'none';
+    placeholder.style.display = 'block';
+}
+
+function captureFace() {
+    const userId = document.getElementById('user-id').value || 'unknown';
+    
+    fetch('/api/camera/capture/face', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: userId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            capturedFace = data.filepath;
+            document.getElementById('face-status').className = 'badge bg-success mt-1';
+            document.getElementById('face-status').textContent = 'Captured ✓';
+            document.getElementById('face-preview').innerHTML = '<i class="bi bi-check-circle text-success display-6"></i>';
+            updateEnrollButton();
+            showAlert('Face captured successfully!', 'success');
+        } else {
+            showAlert('Failed to capture face: ' + data.error, 'warning');
+        }
+    });
+}
+
+function captureHand() {
+    const userId = document.getElementById('user-id').value || 'unknown';
+    
+    fetch('/api/camera/capture/hand', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: userId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            capturedHand = data.filepath;
+            document.getElementById('hand-status').className = 'badge bg-success mt-1';
+            document.getElementById('hand-status').textContent = 'Captured ✓';
+            document.getElementById('hand-preview').innerHTML = '<i class="bi bi-check-circle text-success display-6"></i>';
+            updateEnrollButton();
+            showAlert('Hand captured successfully!', 'success');
+        } else {
+            showAlert('Failed to capture hand: ' + data.error, 'warning');
+        }
+    });
+}
+
+function enrollWithCaptures() {
+    const userId = document.getElementById('user-id').value;
+    
+    if (!userId) {
+        showAlert('Please enter a User ID', 'warning');
+        return;
+    }
+    
+    if (!capturedFace || !capturedHand) {
+        showAlert('Please capture both face and hand images', 'warning');
+        return;
+    }
+    
+    // Enroll with captured images
+    fetch('/api/enroll', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            user_id: userId,
+            vault_data: {
+                face_image: capturedFace,
+                hand_image: capturedHand,
+                biometric_type: 'face_hand'
+            }
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showAlert('User enrolled successfully!', 'success');
+            // Reset captures
+            capturedFace = null;
+            capturedHand = null;
+            document.getElementById('face-status').className = 'badge bg-secondary mt-1';
+            document.getElementById('face-status').textContent = 'Not captured';
+            document.getElementById('hand-status').className = 'badge bg-secondary mt-1';
+            document.getElementById('hand-status').textContent = 'Not captured';
+            document.getElementById('face-preview').innerHTML = '<i class="bi bi-person text-muted display-6"></i>';
+            document.getElementById('hand-preview').innerHTML = '<i class="bi bi-hand-index text-muted display-6"></i>';
+            updateEnrollButton();
+        } else {
+            showAlert('Enrollment failed: ' + data.error, 'danger');
+        }
+    });
+}
+
+function updateUI() {
+    document.getElementById('btn-start').disabled = cameraRunning;
+    document.getElementById('btn-stop').disabled = !cameraRunning;
+    document.getElementById('btn-capture-face').disabled = !cameraRunning;
+    document.getElementById('btn-capture-hand').disabled = !cameraRunning;
+    document.getElementById('camera-status').className = cameraRunning ? 'badge bg-success' : 'badge bg-secondary';
+    document.getElementById('camera-status').textContent = cameraRunning ? 'Running' : 'Stopped';
+}
+
+function updateEnrollButton() {
+    document.getElementById('btn-enroll').disabled = !(capturedFace && capturedHand);
+}
+
+function showAlert(message, type) {
+    const alertHtml = `
+        <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    `;
+    const container = document.querySelector('.container');
+    container.insertAdjacentHTML('afterbegin', alertHtml);
+    
+    setTimeout(() => {
+        const alert = container.querySelector('.alert');
+        if (alert) alert.remove();
+    }, 3000);
+}
+
+// Initialize
+updateUI();
+</script>
+{% endblock %}
