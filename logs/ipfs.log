@@ -1,0 +1,7 @@
+Initializing daemon...
+Kubo version: 0.24.0
+Repo version: 15
+System version: amd64/linux
+Golang version: go1.21.3
+
+Error: lock /home/ailab/.ipfs/repo.lock: someone else has the lock

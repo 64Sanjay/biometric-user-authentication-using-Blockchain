@@ -1,0 +1,70 @@
+{
+  "timestamp": "2025-12-24T15:06:42.270875",
+  "configuration": {
+    "num_users": 100,
+    "num_imposter_tests": 200,
+    "threshold": 0.9,
+    "genuine_tests": 400,
+    "imposter_tests_actual": 200
+  },
+  "metrics": {
+    "TAR": 0.925,
+    "FRR": 0.07499999999999996,
+    "TRR": 0.95,
+    "FAR": 0.050000000000000044,
+    "EER": 0.06625,
+    "EER_threshold": 0.8828828828828829,
+    "Accuracy": 0.9333333333333333
+  },
+  "paper_comparison": {
+    "TAR": {
+      "ours": 0.925,
+      "paper": 0.96
+    },
+    "FAR": {
+      "ours": 0.050000000000000044,
+      "paper": 0.08
+    },
+    "TRR": {
+      "ours": 0.95,
+      "paper": 0.92
+    },
+    "FRR": {
+      "ours": 0.07499999999999996,
+      "paper": 0.08
+    },
+    "EER": {
+      "ours": 0.06625,
+      "paper": 0.08
+    },
+    "Accuracy": {
+      "ours": 0.9333333333333333,
+      "paper": 0.998
+    }
+  },
+  "score_statistics": {
+    "genuine": {
+      "count": 400,
+      "mean": 0.95833984375,
+      "std": 0.14905442189974175,
+      "min": 0.015625,
+      "max": 1.0
+    },
+    "imposter": {
+      "count": 200,
+      "mean": 0.478515625,
+      "std": 0.4061070586867881,
+      "min": 0.0,
+      "max": 0.9453125
+    }
+  },
+  "elapsed_time_seconds": 1036.2824232578278,
+  "visualization_files": [
+    "/home/ailab/Work/noise_red/biometric /biometric_blockchain_auth/logs/full_evaluation/visualizations/roc_curve.png",
+    "/home/ailab/Work/noise_red/biometric /biometric_blockchain_auth/logs/full_evaluation/visualizations/det_curve.png",
+    "/home/ailab/Work/noise_red/biometric /biometric_blockchain_auth/logs/full_evaluation/visualizations/score_distribution.png",
+    "/home/ailab/Work/noise_red/biometric /biometric_blockchain_auth/logs/full_evaluation/visualizations/confusion_matrix.png",
+    "/home/ailab/Work/noise_red/biometric /biometric_blockchain_auth/logs/full_evaluation/visualizations/metrics_comparison.png",
+    "/home/ailab/Work/noise_red/biometric /biometric_blockchain_auth/logs/full_evaluation/visualizations/far_frr_threshold.png"
+  ]
+}
