@@ -1,0 +1,19 @@
+{
+  "user_id": "test_user_001",
+  "fuzzy_vault": [
+    0.1,
+    0.2,
+    0.3,
+    0.4,
+    0.5
+  ],
+  "bio_token": {
+    "grid_shape": [
+      256,
+      3
+    ],
+    "n_features": 128,
+    "tolerance": 0.1
+  },
+  "stored_at": "2025-12-24T10:38:24.527766"
+}

@@ -1,0 +1,17 @@
+{
+  "user_001": {
+    "ipfs_hash": "QmTestHash123456789",
+    "tx_hash": "494a49077bb48531b44622610cf5343570ab4332bf981d7fcd3987f4a066bf31",
+    "active": false
+  },
+  "user_002": {
+    "ipfs_hash": "QmAnotherTestHash987654",
+    "tx_hash": "3b14b0cdaa0f52b0aed6fde55c1e71090dd63b86a9da6f9e6e18fc1026b16be7",
+    "active": true
+  },
+  "test_user_real": {
+    "ipfs_hash": "Qm59402d982df52880c7c3085a4b7d5497bb00e056152a",
+    "tx_hash": "c00d37f1f9d9201bf7e9a85231da85e9032384ddbcc5f338feefe6046515797c",
+    "active": true
+  }
+}
