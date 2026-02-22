@@ -10,8 +10,6 @@ This repository is a research prototype that demonstrates:
 - Smart-contract based indexing on an Ethereum-compatible network (Ganache for local testing)
 - A Flask web UI and REST API with camera integration
 
-This README has been tailored to the repository layout and code at commit `2dbd760ff67652ac3a5e739bce8791d05c9bb699`.
-
 Contents
 - Project overview
 - What’s in this repo (actual files & folders)
